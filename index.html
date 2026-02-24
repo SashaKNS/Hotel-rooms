@@ -2,7 +2,7 @@
 <html lang="lt">
 <head>
 <meta charset="UTF-8">
-<title>Kambarių paskirstymas – Tirana</title>
+<title>Hotel room selection in Tirana</title>
 
 <style>
     body {
@@ -71,17 +71,17 @@
 
 <body>
 
-<h1>Kambarių paskirstymas – Tirana (balandis)</h1>
+<h1>Hotel room selection in Tirana</h1>
 
 <table id="roomTable">
     <tr>
-        <th>Kambarys</th>
-        <th>Asmuo 1</th>
-        <th>Asmuo 2</th>
+        <th>Room</th>
+        <th>Person 1</th>
+        <th>Person 2</th>
     </tr>
 </table>
 
-<button onclick="saveData()">Išsaugoti</button>
+<button onclick="saveData()">Save</button>
 
 <script>
     const roomCount = 11;
@@ -92,9 +92,9 @@
         const row = document.createElement("tr");
 
         row.innerHTML = `
-            <td>${i} kambarys</td>
-            <td><input id="r${i}_1" placeholder="Vardas"></td>
-            <td><input id="r${i}_2" placeholder="Vardas"></td>
+            <td>${i} room</td>
+            <td><input id="r${i}_1" placeholder="Name"></td>
+            <td><input id="r${i}_2" placeholder="Name"></td>
         `;
 
         table.appendChild(row);
@@ -121,7 +121,7 @@
                 document.getElementById(`r${i}_2`).value);
         }
 
-        alert("Duomenys sėkmingai išsaugoti!");
+        alert("Data saved!");
     }
 </script>
 
