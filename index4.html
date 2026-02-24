@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<title>Kambarių paskirstymas – Tirana</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url("https://images.unsplash.com/photo-1549880338-65ddcdfd017b");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        padding: 30px;
+        margin: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: white;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    }
+
+    table {
+        margin: auto;
+        border-collapse: collapse;
+        background: rgba(255, 255, 255, 0.92);
+        width: 520px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background: #f2f2f2;
+        font-weight: bold;
+    }
+
+    input {
+        width: 90%;
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        display: block;
+        margin: 25px auto;
+        padding: 12px 35px;
+        font-size: 16px;
+        background: #2e8b57;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    button:hover {
+        background: #256f46;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Kambarių paskirstymas – Tirana (balandis)</h1>
+
+<table id="roomTable">
+    <tr>
+        <th>Kambarys</th>
+        <th>Asmuo 1</th>
+        <th>Asmuo 2</th>
+    </tr>
+</table>
+
+<button onclick="saveData()">Išsaugoti</button>
+
+<script>
+    const roomCount = 11;
+    const table = document.getElementById("roomTable");
+
+    // Sugeneruoja kambarius
+    for (let i = 1; i <= roomCount; i++) {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${i} kambarys</td>
+            <td><input id="r${i}_1" placeholder="Vardas"></td>
+            <td><input id="r${i}_2" placeholder="Vardas"></td>
+        `;
+
+        table.appendChild(row);
+    }
+
+    // Užkrauna išsaugotus duomenis
+    window.onload = () => {
+        for (let i = 1; i <= roomCount; i++) {
+            document.getElementById(`r${i}_1`).value =
+                localStorage.getItem(`r${i}_1`) || "";
+
+            document.getElementById(`r${i}_2`).value =
+                localStorage.getItem(`r${i}_2`) || "";
+        }
+    };
+
+    // Išsaugo duomenis
+    function saveData() {
+        for (let i = 1; i <= roomCount; i++) {
+            localStorage.setItem(`r${i}_1`,
+                document.getElementById(`r${i}_1`).value);
+
+            localStorage.setItem(`r${i}_2`,
+                document.getElementById(`r${i}_2`).value);
+        }
+
+        alert("Duomenys sėkmingai išsaugoti!");
+    }
+</script>
+
+</body>
+</html>
