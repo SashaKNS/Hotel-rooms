@@ -1,18 +1,12 @@
 <!DOCTYPE html>
-<html lang="lt">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Kambarių paskirstymas – Tirana (bendri duomenys)</title>
+  <title>Room selection - Tirana (April)</title>
   <style>
-    :root {
-      --bg-overlay: rgba(255, 255, 255, 0.92);
-      --accent: #2e8b57;
-      --accent-hover: #256f46;
-      --text-on-image: #ffffff;
-      --shadow: rgba(0,0,0,0.25);
-    }
-    * { box-sizing: border-box; }
+    :root { --bg-overlay: rgba(255,255,255,0.92); --accent:#2e8b57; --accent-hover:#256f46; --shadow:rgba(0,0,0,0.25);}    
+
     body {
       font-family: Arial, sans-serif;
       background-image: url("https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1920&q=60");
@@ -21,20 +15,28 @@
       background-attachment: fixed;
       padding: 30px;
       margin: 0;
+      position: relative;
     }
+
+    /* Albanian flag */
+    .flag {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 60px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    }
+
     h1 {
       text-align: center;
       margin-bottom: 10px;
-      color: var(--text-on-image);
+      color: white;
       text-shadow: 0 2px 6px rgba(0,0,0,0.6);
     }
-    .sub {
-      text-align: center;
-      color: #f7f7f7;
-      margin-bottom: 18px;
-      opacity: .95;
-    }
+
     .container { max-width: 720px; margin: 0 auto; }
+
     table {
       margin: auto;
       border-collapse: collapse;
@@ -44,163 +46,117 @@
       border-radius: 10px;
       overflow: hidden;
     }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
-    th { background: #f2f2f2; font-weight: bold; }
-    input[type="text"] {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 14px;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
     }
-    .actions {
+
+    th {
+      background: #f2f2f2;
+      font-weight: bold;
+    }
+
+    input[type=text]{
+      width: 100%; padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px;
+    }
+
+    .actions{
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px auto 0;
     }
-    button {
-      padding: 12px 20px; font-size: 15px; background: var(--accent); color: white;
-      border: none; border-radius: 6px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+    button{
+      padding: 12px 20px; font-size: 15px; background: var(--accent); color:white;
+      border:none; border-radius:6px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3);
     }
-    button:hover { background: var(--accent-hover); }
-    .status { margin-top: 10px; text-align:center; color:#fff; min-height: 22px; }
-    footer { color: #fff; text-align: center; margin-top: 16px; opacity: .9; }
-    @media (max-width: 520px) {
-      body { padding: 16px; }
-      th:nth-child(1), td:nth-child(1) { width: 34%; }
-    }
+
+    button:hover{ background: var(--accent-hover); }
+
+    .status{ margin-top: 10px; text-align:center; color:#fff; min-height:22px; }
+
   </style>
 </head>
 <body>
-  <div class="container" role="main">
-    <h1>Kambarių paskirstymas – Tirana (balandis)</h1>
-    <div class="sub">Bendri (pasidalinti) duomenys – visi lankytojai matys tą patį turinį</div>
 
-    <table id="roomTable" aria-label="Kambarių sąrašas">
+  <!-- Albanian flag -->
+  <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg" alt="Albanian flag">
+
+  <div class="container">
+    <h1>Room selection – Tirana (April)</h1>
+
+    <table id="roomTable">
       <thead>
-        <tr>
-          <th scope="col">Kambarys</th>
-          <th scope="col">Asmuo 1</th>
-          <th scope="col">Asmuo 2</th>
-        </tr>
+        <tr><th>Room</th><th>Person 1</th><th>Person 2</th></tr>
       </thead>
       <tbody></tbody>
     </table>
 
     <div class="actions">
-      <button id="saveBtn" type="button">Išsaugoti</button>
-      <button id="reloadBtn" type="button" title="Perkrauti duomenis iš debesies">Perkrauti</button>
-      <button id="clearLocalBtn" type="button" title="Išvalyti vietinę talpyklą (cache)">Išvalyti talpyklą</button>
+      <button id="saveBtn">Save</button>
     </div>
 
-    <div class="status" id="status"></div>
-    <footer>Duomenys saugomi bendrame JSON Bin (nebe LocalStorage). Jei reikia privatumo, naudokite atskirą BIN / raktą.</footer>
+    <div id="status" class="status"></div>
   </div>
 
   <script>
-    // ====== 🔐 KONFIGŪRA — ĮRAŠYKITE SAVO RAKTĄ LOKALIAI (NESIŲSKITE JO NIEKAM) ======
     const JSONBIN_BIN_URL = "https://api.jsonbin.io/v3/b/69ae8176ae596e708f6fa7e8";
-    const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF."; // 👈👈👈 PASTATYKITE ČIA SAVO API RAKTĄ
-
-    // Jei norite rodyti tik naujausią versiją, naudokite .../latest GET užklausoms:
+    const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF.";
     const JSONBIN_BIN_URL_LATEST = JSONBIN_BIN_URL + "/latest";
 
-    // ====== PROGRAMOS PARAMETRAI ======
     const roomCount = 11;
     const tbody = document.querySelector('#roomTable tbody');
     const statusEl = document.getElementById('status');
 
-    function setStatus(msg, ok=true) {
-      statusEl.textContent = msg || "";
-      statusEl.style.color = ok ? '#d8fbd8' : '#ffdede';
-    }
+    function setStatus(msg = "") { statusEl.textContent = msg; }
 
-    function makeRow(i) {
+    function makeRow(i){
       const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${i} kambarys</td>
-        <td><input type="text" id="r${i}_1" placeholder="Vardas" autocomplete="off"></td>
-        <td><input type="text" id="r${i}_2" placeholder="Vardas" autocomplete="off"></td>
-      `;
+      tr.innerHTML = `<td>Room ${i}</td><td><input id="r${i}_1" type="text"></td><td><input id="r${i}_2" type="text"></td>`;
       return tr;
     }
 
-    for (let i = 1; i <= roomCount; i++) {
-      tbody.appendChild(makeRow(i));
-    }
+    for(let i=1;i<=roomCount;i++){ tbody.appendChild(makeRow(i)); }
 
-    // Surenka duomenis iš formos
-    function collectData() {
-      const data = {};
-      for (let i = 1; i <= roomCount; i++) {
-        data[`r${i}_1`] = document.getElementById(`r${i}_1`).value.trim();
-        data[`r${i}_2`] = document.getElementById(`r${i}_2`).value.trim();
+    function collectData(){
+      const d={};
+      for(let i=1;i<=roomCount;i++){
+        d[`r${i}_1`] = document.getElementById(`r${i}_1`).value.trim();
+        d[`r${i}_2`] = document.getElementById(`r${i}_2`).value.trim();
       }
-      return data;
+      return d;
     }
 
-    // Užpildo formą iš JSON objekto
-    function fillFromData(data = {}) {
-      for (let i = 1; i <= roomCount; i++) {
+    function fillFromData(data={}){
+      for(let i=1;i<=roomCount;i++){
         document.getElementById(`r${i}_1`).value = data[`r${i}_1`] || "";
         document.getElementById(`r${i}_2`).value = data[`r${i}_2`] || "";
       }
     }
 
-    // ====== API KVĖTIMAI Į JSON BIN ======
-    async function loadData() {
-      setStatus("Kraunama iš debesies...");
-      try {
+    async function loadData(){
+      try{
         const res = await fetch(JSONBIN_BIN_URL_LATEST, {
-          method: "GET",
-          headers: {
-            "X-Master-Key": JSONBIN_API_KEY,
-            "Accept": "application/json"
-          },
-          cache: "no-store"
+          method:"GET",
+          headers:{"X-Master-Key":JSONBIN_API_KEY, "Accept":"application/json"},
+          cache:"no-store"
         });
-        if (!res.ok) throw new Error("HTTP " + res.status);
         const json = await res.json();
-        const data = json.record || {};
-        fillFromData(data);
-        setStatus("Duomenys užkrauti. (Bendra versija)");
-      } catch (err) {
-        console.error(err);
-        setStatus("Nepavyko užkrauti duomenų iš debesies. Patikrinkite raktą/URL.", false);
-      }
+        fillFromData(json.record || {});
+      } catch(e){ console.error(e); }
     }
 
-    async function saveData() {
-      const data = collectData();
-      setStatus("Saugoma...");
-      try {
-        const res = await fetch(JSONBIN_BIN_URL, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Master-Key": JSONBIN_API_KEY
-          },
-          body: JSON.stringify(data)
+    async function saveData(){
+      try{
+        await fetch(JSONBIN_BIN_URL,{
+          method:"PUT",
+          headers:{"Content-Type":"application/json", "X-Master-Key":JSONBIN_API_KEY},
+          body:JSON.stringify(collectData())
         });
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        setStatus("Duomenys išsaugoti bendrame BIN ✅");
-      } catch (err) {
-        console.error(err);
-        setStatus("Klaida saugant duomenis. Patikrinkite raktą/URL arba bandykite dar kartą.", false);
-      }
+      } catch(e){ console.error(e); }
     }
 
-    // Įvykiai
     document.getElementById('saveBtn').addEventListener('click', saveData);
-    document.getElementById('reloadBtn').addEventListener('click', loadData);
-    document.getElementById('clearLocalBtn').addEventListener('click', () => {
-      // Šiame variante LocalStorage nenaudojamas, bet išvalome naršyklės cache/values
-      for (let i = 1; i <= roomCount; i++) {
-        document.getElementById(`r${i}_1`).value = "";
-        document.getElementById(`r${i}_2`).value = "";
-      }
-      setStatus("Laukeliai išvalyti (vietiškai). Norėdami išvalyti bendrus duomenis – spauskite Išsaugoti.");
-    });
-
-    // Paleidimas
     window.addEventListener('DOMContentLoaded', loadData);
   </script>
 </body>
