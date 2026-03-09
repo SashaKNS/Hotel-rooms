@@ -1,163 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Room selection - Tirana (April)</title>
-  <style>
-    :root { --bg-overlay: rgba(255,255,255,0.92); --accent:#2e8b57; --accent-hover:#256f46; --shadow:rgba(0,0,0,0.25);}    
-
-    body {
-      font-family: Arial, sans-serif;
-      background-image: url("https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1920&q=60");
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      padding: 30px;
-      margin: 0;
-      position: relative;
-    }
-
-    /* Albanian flag */
-    .flag {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      width: 60px;
-      border-radius: 4px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-      color: white;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    }
-
-    .container { max-width: 720px; margin: 0 auto; }
-
-    table {
-      margin: auto;
-      border-collapse: collapse;
-      background: var(--bg-overlay);
-      width: 100%;
-      box-shadow: 0 8px 20px var(--shadow);
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 10px;
-      text-align: center;
-    }
-
-    th {
-      background: #f2f2f2;
-      font-weight: bold;
-    }
-
-    input[type=text]{
-      width: 100%; padding: 8px 10px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px;
-    }
-
-    .actions{
-      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin: 20px auto 0;
-    }
-
-    button{
-      padding: 12px 20px; font-size: 15px; background: var(--accent); color:white;
-      border:none; border-radius:6px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.3);
-    }
-
-    button:hover{ background: var(--accent-hover); }
-
-    .status{ margin-top: 10px; text-align:center; color:#fff; min-height:22px; }
-
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Room selection - Tirana (April)</title>
+<style>
+ :root { --bg: rgba(255,255,255,0.92); --accent:#2e8b57; --accent-hover:#256f46; }
+ body { font-family: Arial; background:url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1200&q=60') center/cover fixed; margin:0; padding:20px; }
+ .flag { position:absolute; top:10px; right:10px; width:50px; }
+ .container { max-width:720px; margin:auto; }
+ h1 { text-align:center; color:white; text-shadow:0 2px 6px black; margin-top:60px; }
+ table { width:100%; background:var(--bg); border-collapse:collapse; border-radius:10px; overflow:hidden; }
+ th,td { border:1px solid #ddd; padding:10px; text-align:center; }
+ th { background:#f2f2f2; }
+ input { width:100%; padding:8px; }
+ button { background:var(--accent); color:white; padding:12px 20px; border:none; border-radius:6px; margin-top:15px; }
+ button:hover { background:var(--accent-hover);} 
+ .status{text-align:center; color:white; min-height:22px;}
+ .promo { margin:20px auto; background:var(--bg); padding:15px; border-radius:10px; text-align:center; }
+ .promo img.logo { width:90px; display:block; margin:0 auto 10px; }
+ .store-links a { display:block; margin:8px 0; font-size:16px; color:#0645AD; }
+ @media(max-width:600px){ h1{font-size:20px;} table{font-size:14px;} button{width:100%;} .promo{font-size:14px;} }
+</style>
 </head>
 <body>
+<img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg">
+<div class="container">
+<h1>Room selection – Tirana (April)</h1>
 
-  <!-- Albanian flag -->
-  <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg" alt="Albanian flag">
+<div class="promo">
+ <img class="logo" src="https://play-lh.googleusercontent.com/P3f41zpg7jplOfKOY5eP9sNWTPCDeiGC44LLvhM8j7ZGZ6DAN_1Csj9BpmTqJQAevoE" alt="VrapOn Taxi Logo">
+ <div>We suggest downloading this app. It is the most popular taxi app in Albania.</div>
+ <div class="store-links">
+   <a href="https://play.google.com/store/apps/details?id=com.vrapon.rider_app&hl=en" target="_blank">Download VrapON Taxi (Google Play)</a>
+   <a href="https://apps.apple.com/us/app/vrapon-taxi-albania/id6447811825" target="_blank">Download VrapON Taxi (Apple Store)</a>
+ </div>
+</div>
 
-  <div class="container">
-    <h1>Room selection – Tirana (April)</h1>
+<table id="roomTable"><thead><tr><th>Room</th><th>Person 1</th><th>Person 2</th></tr></thead><tbody></tbody></table>
+<button id="saveBtn">Save</button>
+<div id="status" class="status"></div>
+</div>
+<script>
+ const JSONBIN_BIN_URL = "https://api.jsonbin.io/v3/b/69ae8176ae596e708f6fa7e8";
+ const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF.";
+ const JSONBIN_BIN_URL_LATEST = JSONBIN_BIN_URL + "/latest";
 
-    <table id="roomTable">
-      <thead>
-        <tr><th>Room</th><th>Person 1</th><th>Person 2</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+ const roomCount=11; const tbody=document.querySelector('#roomTable tbody');
+ function makeRow(i){ return `<tr><td>Room ${i}</td><td><input id="r${i}_1"></td><td><input id="r${i}_2"></td></tr>`; }
+ for(let i=1;i<=roomCount;i++){ tbody.insertAdjacentHTML('beforeend', makeRow(i)); }
 
-    <div class="actions">
-      <button id="saveBtn">Save</button>
-    </div>
+ function collect(){ let d={}; for(let i=1;i<=roomCount;i++){ d[`r${i}_1`]=document.getElementById(`r${i}_1`).value; d[`r${i}_2`]=document.getElementById(`r${i}_2`).value;} return d; }
+ function fill(data){ for(let i=1;i<=roomCount;i++){ document.getElementById(`r${i}_1`).value=data[`r${i}_1`]||""; document.getElementById(`r${i}_2`).value=data[`r${i}_2`]||"";} }
 
-    <div id="status" class="status"></div>
-  </div>
-
-  <script>
-    const JSONBIN_BIN_URL = "https://api.jsonbin.io/v3/b/69ae8176ae596e708f6fa7e8";
-    const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF.";
-    const JSONBIN_BIN_URL_LATEST = JSONBIN_BIN_URL + "/latest";
-
-    const roomCount = 11;
-    const tbody = document.querySelector('#roomTable tbody');
-    const statusEl = document.getElementById('status');
-
-    function setStatus(msg = "") { statusEl.textContent = msg; }
-
-    function makeRow(i){
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>Room ${i}</td><td><input id="r${i}_1" type="text"></td><td><input id="r${i}_2" type="text"></td>`;
-      return tr;
-    }
-
-    for(let i=1;i<=roomCount;i++){ tbody.appendChild(makeRow(i)); }
-
-    function collectData(){
-      const d={};
-      for(let i=1;i<=roomCount;i++){
-        d[`r${i}_1`] = document.getElementById(`r${i}_1`).value.trim();
-        d[`r${i}_2`] = document.getElementById(`r${i}_2`).value.trim();
-      }
-      return d;
-    }
-
-    function fillFromData(data={}){
-      for(let i=1;i<=roomCount;i++){
-        document.getElementById(`r${i}_1`).value = data[`r${i}_1`] || "";
-        document.getElementById(`r${i}_2`).value = data[`r${i}_2`] || "";
-      }
-    }
-
-    async function loadData(){
-      try{
-        const res = await fetch(JSONBIN_BIN_URL_LATEST, {
-          method:"GET",
-          headers:{"X-Master-Key":JSONBIN_API_KEY, "Accept":"application/json"},
-          cache:"no-store"
-        });
-        const json = await res.json();
-        fillFromData(json.record || {});
-      } catch(e){ console.error(e); }
-    }
-
-    async function saveData(){
-      try{
-        await fetch(JSONBIN_BIN_URL,{
-          method:"PUT",
-          headers:{"Content-Type":"application/json", "X-Master-Key":JSONBIN_API_KEY},
-          body:JSON.stringify(collectData())
-        });
-      } catch(e){ console.error(e); }
-    }
-
-    document.getElementById('saveBtn').addEventListener('click', saveData);
-    window.addEventListener('DOMContentLoaded', loadData);
-  </script>
+ async function load(){ try{ let r=await fetch(JSONBIN_BIN_URL_LATEST,{headers:{"X-Master-Key":JSONBIN_API_KEY}}); let j=await r.json(); fill(j.record||{});}catch(e){} }
+ async function save(){ try{ await fetch(JSONBIN_BIN_URL,{method:"PUT", headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_API_KEY}, body:JSON.stringify(collect())}); }catch(e){} }
+ document.getElementById('saveBtn').onclick=save;
+ window.onload=load;
+</script>
 </body>
 </html>
