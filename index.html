@@ -5,58 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Room selection - Tirana (April)</title>
 <style>
- :root { --bg: rgba(255,255,255,0.92); --accent:#2e8b57; --accent-hover:#256f46; }
- body { font-family: Arial; background:url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1200&q=60') center/cover fixed; margin:0; padding:20px; }
- .flag { position:absolute; top:10px; right:10px; width:50px; }
- .container { max-width:720px; margin:auto; }
- h1 { text-align:center; color:white; text-shadow:0 2px 6px black; margin-top:60px; }
- table { width:100%; background:var(--bg); border-collapse:collapse; border-radius:10px; overflow:hidden; }
- th,td { border:1px solid #ddd; padding:10px; text-align:center; }
- th { background:#f2f2f2; }
- input { width:100%; padding:8px; }
- button { background:var(--accent); color:white; padding:12px 20px; border:none; border-radius:6px; margin-top:15px; }
- button:hover { background:var(--accent-hover);} 
- .status{text-align:center; color:white; min-height:22px;}
- .promo { margin:20px auto; background:var(--bg); padding:15px; border-radius:10px; text-align:center; }
- .promo img.logo { width:90px; display:block; margin:0 auto 10px; }
- .store-links a { display:block; margin:8px 0; font-size:16px; color:#0645AD; }
- @media(max-width:600px){ h1{font-size:20px;} table{font-size:14px;} button{width:100%;} .promo{font-size:14px;} }
+ :root{
+   --bg: rgba(255,255,255,0.92);
+   --glass: rgba(255,255,255,0.75);
+   --accent:#2e8b57; 
+   --accent-hover:#256f46; 
+   --shadow: 0 10px 30px rgba(0,0,0,.25);
+ }
+ html,body{height:100%;}
+ body{
+   font-family: Arial, sans-serif;
+   background: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=1920&q=60') center/cover fixed no-repeat;
+   margin:0; padding:20px; position:relative; color:#111;
+ }
+ .flag{position:absolute; top:12px; right:12px; width:50px; border-radius:3px; box-shadow:0 2px 6px rgba(0,0,0,.35)}
+ .page{max-width:1100px; margin:0 auto;}
+ 
+ /* Titles */
+ .title-xl{ text-align:center; color:#fff; text-shadow:0 3px 10px rgba(0,0,0,.55); font-weight:800; margin:20px 0 10px; font-size:40px; letter-spacing:.2px; }
+ .title-md{ text-align:center; color:#fff; text-shadow:0 2px 6px rgba(0,0,0,.5); font-weight:700; margin:5px 0 18px; font-size:24px; }
+ 
+ /* Layout: three columns on desktop, stacked on mobile */
+ .layout{
+   display:grid; grid-template-columns: 300px 1fr 300px; gap:18px; align-items:start;
+ }
+ @media(max-width: 980px){ .layout{ grid-template-columns: 1fr; } .title-xl{font-size:30px;} .title-md{font-size:20px;} }
+ 
+ /* Cards */
+ .card{ background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.68)); border-radius:14px; box-shadow: var(--shadow); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+ .card .card-body{ padding:16px 18px; }
+ .card h3{ margin:0 0 8px; font-size:18px; }
+ 
+ /* VrapOn promo card on the LEFT */
+ .promo .logo{ width:90px; display:block; margin:0 auto 8px; }
+ .promo .subtitle{ font-size:14px; text-align:center; color:#333; }
+ .promo .store-links{ margin-top:10px; text-align:center; }
+ .promo .store-links a{ display:block; margin:8px 0; color:#0645AD; text-decoration: underline; }
+ 
+ /* Center content: table form */
+ table{ width:100%; background:var(--bg); border-collapse:collapse; border-radius:12px; overflow:hidden; box-shadow: var(--shadow); }
+ th,td{ border:1px solid #e3e3e3; padding:10px; text-align:center; }
+ th{ background:#f4f4f4; font-weight:700; }
+ input{ width:100%; padding:8px 10px; border:1px solid #ccc; border-radius:4px; }
+ .actions{ display:flex; justify-content:center; margin:12px 0 0; }
+ .btn{ background:var(--accent); color:#fff; border:none; border-radius:6px; padding:12px 20px; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,.25); }
+ .btn:hover{ background: var(--accent-hover); }
+ 
+ /* Weather card on the RIGHT */
+ .weather .grid{ display:grid; grid-template-columns: repeat(7, 1fr); gap:8px; }
+ .weather .day{ background: rgba(255,255,255,.85); border-radius:10px; padding:10px; text-align:center; }
+ .weather .day .name{ font-weight:700; font-size:12px; color:#333; }
+ .weather .day .icon{ font-size:20px; margin:4px 0; }
+ .weather .day .temp{ font-size:12px; color:#333; }
+ @media(max-width:980px){ .weather .grid{ grid-template-columns: repeat(3, 1fr); } }
+ @media(max-width:480px){ .weather .grid{ grid-template-columns: repeat(2, 1fr); } }
+ 
+ .status{ text-align:center; color:#fff; min-height:20px; }
 </style>
 </head>
 <body>
-<img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg">
-<div class="container">
-<h1>Room selection – Tirana (April)</h1>
+  <img class="flag" src="https://upload.wikimedia.org/wikipedia/commons/3/36/Flag_of_Albania.svg" alt="Albanian flag" />
+  <div class="page">
+    <div class="title-xl">Make B2B team building Great Again</div>
+    <div class="title-md">Room selection – Tirana (April)</div>
 
-<div class="promo">
- <img class="logo" src="https://play-lh.googleusercontent.com/P3f41zpg7jplOfKOY5eP9sNWTPCDeiGC44LLvhM8j7ZGZ6DAN_1Csj9BpmTqJQAevoE" alt="VrapOn Taxi Logo">
- <div>We suggest downloading this app. It is the most popular taxi app in Albania.</div>
- <div class="store-links">
-   <a href="https://play.google.com/store/apps/details?id=com.vrapon.rider_app&hl=en" target="_blank">Download VrapON Taxi (Google Play)</a>
-   <a href="https://apps.apple.com/us/app/vrapon-taxi-albania/id6447811825" target="_blank">Download VrapON Taxi (Apple Store)</a>
- </div>
-</div>
+    <div class="layout">
+      <!-- LEFT: VrapOn promo card -->
+      <section class="card promo">
+        <div class="card-body">
+          <img class="logo" src="https://play-lh.googleusercontent.com/P3f41zpg7jplOfKOY5eP9sNWTPCDeiGC44LLvhM8j7ZGZ6DAN_1Csj9BpmTqJQAevoE" alt="VrapOn Taxi Logo" />
+          <div class="subtitle">We suggest to download this app. It is most popular taxi app in Albania.</div>
+          <div class="store-links">
+            <a href="https://play.google.com/store/apps/details?id=com.vrapon.rider_app&hl=en" target="_blank" rel="noopener">Download VrapON Taxi (Google Play)</a>
+            <a href="https://apps.apple.com/us/app/vrapon-taxi-albania/id6447811825" target="_blank" rel="noopener">Download VrapON Taxi (Apple Store)</a>
+          </div>
+        </div>
+      </section>
 
-<table id="roomTable"><thead><tr><th>Room</th><th>Person 1</th><th>Person 2</th></tr></thead><tbody></tbody></table>
-<button id="saveBtn">Save</button>
-<div id="status" class="status"></div>
-</div>
+      <!-- CENTER: table form -->
+      <section>
+        <table id="roomTable">
+          <thead>
+            <tr><th>Room</th><th>Person 1</th><th>Person 2</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="actions"><button id="saveBtn" class="btn">Save</button></div>
+        <div id="status" class="status"></div>
+      </section>
+
+      <!-- RIGHT: 7-day weather forecast for Tirana -->
+      <section class="card weather">
+        <div class="card-body">
+          <h3 style="text-align:center; margin-top:2px;">Tirana · 7‑day forecast</h3>
+          <div id="weatherGrid" class="grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
 <script>
- const JSONBIN_BIN_URL = "https://api.jsonbin.io/v3/b/69ae8176ae596e708f6fa7e8";
- const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF.";
- const JSONBIN_BIN_URL_LATEST = JSONBIN_BIN_URL + "/latest";
+  // ===== JSON Bin shared storage (as before) =====
+  const JSONBIN_BIN_URL = "https://api.jsonbin.io/v3/b/69ae8176ae596e708f6fa7e8";
+  const JSONBIN_API_KEY = "$2a$10$kyPKjkuLo2S/s29wnUKnN.x7E7q9GyOAIJOuMnyhdCM5Kbby4XsF.";
+  const JSONBIN_BIN_URL_LATEST = JSONBIN_BIN_URL + "/latest";
 
- const roomCount=11; const tbody=document.querySelector('#roomTable tbody');
- function makeRow(i){ return `<tr><td>Room ${i}</td><td><input id="r${i}_1"></td><td><input id="r${i}_2"></td></tr>`; }
- for(let i=1;i<=roomCount;i++){ tbody.insertAdjacentHTML('beforeend', makeRow(i)); }
+  const roomCount = 11;
+  const tbody = document.querySelector('#roomTable tbody');
 
- function collect(){ let d={}; for(let i=1;i<=roomCount;i++){ d[`r${i}_1`]=document.getElementById(`r${i}_1`).value; d[`r${i}_2`]=document.getElementById(`r${i}_2`).value;} return d; }
- function fill(data){ for(let i=1;i<=roomCount;i++){ document.getElementById(`r${i}_1`).value=data[`r${i}_1`]||""; document.getElementById(`r${i}_2`).value=data[`r${i}_2`]||"";} }
+  function makeRow(i){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>Room ${i}</td><td><input id="r${i}_1" type="text"></td><td><input id="r${i}_2" type="text"></td>`;
+    return tr;
+  }
+  for(let i=1;i<=roomCount;i++){ tbody.appendChild(makeRow(i)); }
 
- async function load(){ try{ let r=await fetch(JSONBIN_BIN_URL_LATEST,{headers:{"X-Master-Key":JSONBIN_API_KEY}}); let j=await r.json(); fill(j.record||{});}catch(e){} }
- async function save(){ try{ await fetch(JSONBIN_BIN_URL,{method:"PUT", headers:{"Content-Type":"application/json","X-Master-Key":JSONBIN_API_KEY}, body:JSON.stringify(collect())}); }catch(e){} }
- document.getElementById('saveBtn').onclick=save;
- window.onload=load;
+  function collectData(){ const d={}; for(let i=1;i<=roomCount;i++){ d[`r${i}_1`]=document.getElementById(`r${i}_1`).value.trim(); d[`r${i}_2`]=document.getElementById(`r${i}_2`).value.trim(); } return d; }
+  function fillFromData(data={}){ for(let i=1;i<=roomCount;i++){ document.getElementById(`r${i}_1`).value = data[`r${i}_1`] || ""; document.getElementById(`r${i}_2`).value = data[`r${i}_2`] || ""; } }
+
+  async function loadData(){
+    try{ const res = await fetch(JSONBIN_BIN_URL_LATEST, {headers:{"X-Master-Key": JSONBIN_API_KEY, "Accept":"application/json"}, cache:"no-store"}); const json = await res.json(); fillFromData(json.record||{});}catch(e){console.error(e);} }
+  async function saveData(){
+    try{ await fetch(JSONBIN_BIN_URL, {method:"PUT", headers:{"Content-Type":"application/json","X-Master-Key": JSONBIN_API_KEY}, body: JSON.stringify(collectData())}); }catch(e){console.error(e);} }
+  document.getElementById('saveBtn').addEventListener('click', saveData);
+  window.addEventListener('DOMContentLoaded', loadData);
+
+  // ===== WEATHER (Open-Meteo, no API key required) =====
+  // Tirana coordinates from public sources (approx): 41.327953, 19.819025
+  const lat = 41.327953, lon = 19.819025;
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&timezone=Europe/Tirane&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_sum`;
+  const wmoMap = {
+    0:{t:"Clear", e:"☀️"}, 1:{t:"Mainly clear", e:"🌤️"}, 2:{t:"Partly cloudy", e:"⛅"}, 3:{t:"Overcast", e:"☁️"},
+    45:{t:"Fog", e:"🌫️"}, 48:{t:"Rime fog", e:"🌫️"}, 51:{t:"Drizzle", e:"🌦️"}, 53:{t:"Drizzle", e:"🌦️"}, 55:{t:"Drizzle", e:"🌦️"},
+    56:{t:"Freezing drizzle", e:"🌧️❄️"}, 57:{t:"Freezing drizzle", e:"🌧️❄️"}, 61:{t:"Rain", e:"🌧️"}, 63:{t:"Rain", e:"🌧️"}, 65:{t:"Rain", e:"🌧️"},
+    66:{t:"Freezing rain", e:"🌧️❄️"}, 67:{t:"Freezing rain", e:"🌧️❄️"}, 71:{t:"Snow", e:"❄️"}, 73:{t:"Snow", e:"❄️"}, 75:{t:"Snow", e:"❄️"},
+    77:{t:"Snow grains", e:"❄️"}, 80:{t:"Showers", e:"🌦️"}, 81:{t:"Showers", e:"🌦️"}, 82:{t:"Showers", e:"🌧️"},
+    85:{t:"Snow showers", e:"🌨️"}, 86:{t:"Snow showers", e:"🌨️"}, 95:{t:"Thunderstorm", e:"⛈️"}, 96:{t:"Tstorm hail", e:"⛈️"}, 99:{t:"Tstorm hail", e:"⛈️"}
+  };
+  function dayName(d){ return new Date(d).toLocaleDateString(undefined,{weekday:'short'}); }
+
+  async function loadWeather(){
+    try{
+      const r = await fetch(weatherUrl, {cache:'no-store'});
+      const j = await r.json();
+      const g = document.getElementById('weatherGrid');
+      const days = j.daily.time;
+      g.innerHTML = '';
+      for(let i=0;i<Math.min(days.length,7);i++){
+        const code = j.daily.weathercode[i];
+        const mm = Math.round(j.daily.temperature_2m_max[i]);
+        const mn = Math.round(j.daily.temperature_2m_min[i]);
+        const pr = Math.round((j.daily.precipitation_sum?.[i]||0));
+        const info = wmoMap[code] || {t:'', e:'❓'};
+        const card = document.createElement('div');
+        card.className = 'day';
+        card.innerHTML = `<div class="name">${dayName(days[i])}</div><div class="icon" title="${info.t}">${info.e}</div><div class="temp"><strong>${mm}°</strong> / ${mn}° · ${pr} mm</div>`;
+        g.appendChild(card);
+      }
+    }catch(e){ console.error('Weather load failed', e); }
+  }
+  loadWeather();
 </script>
 </body>
 </html>
